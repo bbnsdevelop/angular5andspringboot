@@ -1,11 +1,11 @@
-export interface DaoInterface{
+export interface DaoInterface<T>{
 
   tableName: string;
 
-  insert(object: any): boolean;
-  update(object: any): boolean;
+  insert(object: T): boolean;
+  update(object: T): boolean;
   delete(id: number): boolean;
-  find(id: number): any;
-  findAll(): [any];
+  find(id: number): T;
+  findAll(): [T];
 
 }

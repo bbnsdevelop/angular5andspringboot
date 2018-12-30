@@ -1,24 +1,24 @@
-import { DaoInterface } from '../dao.interface';
-import { Person } from './../../model/person.model';
+import { DaoInterface } from '../dao';
+import { Person } from '../../model/person.model';
 
-export class PersonDaoImpl implements DaoInterface{
+export class DaoImpl<T> implements DaoInterface<T>{
 
   tableName: string;
 
-  insert(Person: any): boolean {
+  insert(object: T): boolean {
     return true;
   }
-  update(Person: any): boolean {
+  update(object: T): boolean {
     return true;
   }
   delete(id: number): boolean {
     return true;
   }
-  find(id: number): Person {
-    return new Person('Bruno');
+  find(id: number): T {
+    return null;
   }
-  findAll(): [Person] {
-    return [new Person('Bruno')]
+  findAll(): [T] {
+    return [null]
   }
 
 
