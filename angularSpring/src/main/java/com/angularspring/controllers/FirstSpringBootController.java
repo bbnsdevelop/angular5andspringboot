@@ -13,5 +13,11 @@ public class FirstSpringBootController {
 	public String showTeste() {
 		return "Hello, first spring boot project";
 	}
+	
+	@GetMapping("/")
+	public String index() {
+		return "index page";
+	}
+	
 
 }
