@@ -9,15 +9,15 @@ import com.helpdeskservice.entities.Tikect;
 
 public interface TicketRepository extends MongoRepository<Tikect, String>{
 	
-	Page<Tikect> findByUserIdOderByDateDesc(Pageable pages,String id);
+	Page<Tikect> findByUserIdOrderByDateDesc(Pageable pages,String id);
 	
-	Page<Tikect> findByTitleIgnoreCaseContainingAndStatusAndPriorityOderByDateDesc(
+	Page<Tikect> findByTitleIgnoreCaseContainingAndStatusAndPriorityOrderByDateDesc(
 			String title, String status, String priority, Pageable pages);
 
-	Page<Tikect> findByTitleIgnoreCaseContainingAndStatusAndPriorityAndUserIdOderByDateDesc(
+	Page<Tikect> findByTitleIgnoreCaseContainingAndStatusAndPriorityAndUserIdOrderByDateDesc(
 			String title, String status, String priority, Pageable pages);
 	
-	Page<Tikect> findByTitleIgnoreCaseContainingAndStatusAndPriorityAndAssignedUserOderByDateDesc(
+	Page<Tikect> findByTitleIgnoreCaseContainingAndStatusAndPriorityAndAssignedUserOrderByDateDesc(
 			String title, String status, String priority, Pageable pages);
 	
 	Page<Tikect> findByNumber(Integer number, Pageable pages);
