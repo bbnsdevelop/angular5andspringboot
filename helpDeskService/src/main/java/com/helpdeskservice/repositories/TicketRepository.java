@@ -5,20 +5,20 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import com.helpdeskservice.entities.Tikect;
+import com.helpdeskservice.entities.Ticket;
 
-public interface TicketRepository extends MongoRepository<Tikect, String>{
+public interface TicketRepository extends MongoRepository<Ticket, String>{
 	
-	Page<Tikect> findByUserIdOrderByDateDesc(Pageable pages,String id);
+	Page<Ticket> findByUserIdOrderByDateDesc(Pageable pages, String userId);
 	
-	Page<Tikect> findByTitleIgnoreCaseContainingAndStatusAndPriorityOrderByDateDesc(
+	Page<Ticket> findByTitleIgnoreCaseContainingAndStatusAndPriorityOrderByDateDesc(
 			String title, String status, String priority, Pageable pages);
 
-	Page<Tikect> findByTitleIgnoreCaseContainingAndStatusAndPriorityAndUserIdOrderByDateDesc(
+	Page<Ticket> findByTitleIgnoreCaseContainingAndStatusAndPriorityAndUserIdOrderByDateDesc(
 			String title, String status, String priority, Pageable pages);
 	
-	Page<Tikect> findByTitleIgnoreCaseContainingAndStatusAndPriorityAndAssignedUserOrderByDateDesc(
+	Page<Ticket> findByTitleIgnoreCaseContainingAndStatusAndPriorityAndAssignedUserOrderByDateDesc(
 			String title, String status, String priority, Pageable pages);
 	
-	Page<Tikect> findByNumber(Integer number, Pageable pages);
+	Page<Ticket> findByNumber(Integer number, Pageable pages);
 }

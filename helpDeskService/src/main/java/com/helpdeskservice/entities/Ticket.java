@@ -12,7 +12,7 @@ import com.helpdeskservice.entities.enumerators.Priority;
 import com.helpdeskservice.entities.enumerators.Status;
 
 @Document
-public class Tikect {
+public class Ticket {
 
 	@Id
 	private String id;
