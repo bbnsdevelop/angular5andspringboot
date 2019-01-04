@@ -15,7 +15,7 @@ public class ChangesStatus {
 	private String id;
 	
 	@DBRef
-	private Tikect tikect;
+	private Ticket ticket;
 	
 	@DBRef
 	private User userChange;
@@ -32,12 +32,20 @@ public class ChangesStatus {
 		this.id = id;
 	}
 
-	public Tikect getTikect() {
-		return tikect;
+	public Ticket getTicket() {
+		return ticket;
 	}
 
-	public void setTikect(Tikect tikect) {
-		this.tikect = tikect;
+	public void setTicket(Ticket ticket) {
+		this.ticket = ticket;
+	}
+
+	public User getUserChange() {
+		return userChange;
+	}
+
+	public void setUserChange(User userChange) {
+		this.userChange = userChange;
 	}
 
 	public Date getDateChangeStatus() {
@@ -55,6 +63,7 @@ public class ChangesStatus {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
+
 	
 	
 }

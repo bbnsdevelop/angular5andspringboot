@@ -1,10 +1,9 @@
 package com.helpdeskservice.service.impl;
 
-import java.awt.print.Pageable;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.helpdeskservice.entities.User;
@@ -41,7 +40,7 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public Page<User> findAll(int page, int count) {
-		Pageable pages = (Pageable) new PageRequest(page, count);
+		Pageable pages = new PageRequest(page, count);
 		return this.userRepository.findAll(pages);
 	}
 

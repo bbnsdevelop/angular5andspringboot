@@ -51,7 +51,7 @@ public class TicketServiceImpl implements TicketService{
 
 	@Override
 	public Iterable<ChangesStatus> listChangeStatus(String ticketId) {
-		return this.changesStatusRepository.findByTikectIdOrderByDateChangeStatusDesc(ticketId);
+		return this.changesStatusRepository.findByTicketIdOrderByDateChangeStatusDesc(ticketId);
 	}
 
 	@Override
