@@ -1,5 +1,7 @@
 package com.helpdeskservice.service;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
@@ -9,7 +11,7 @@ import com.helpdeskservice.entities.Ticket;
 @Component
 public interface TicketService {
 		
-	Ticket createOrUpdate(Ticket ticket);
+	Ticket createOrUpdate(Ticket ticket, HttpServletRequest request);
 	
 	Ticket findById(String id);
 	

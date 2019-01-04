@@ -1,5 +1,7 @@
 package com.helpdeskservice.service.impl;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -8,9 +10,11 @@ import org.springframework.stereotype.Service;
 
 import com.helpdeskservice.entities.ChangesStatus;
 import com.helpdeskservice.entities.Ticket;
+import com.helpdeskservice.entities.enumerators.Status;
 import com.helpdeskservice.repositories.ChangesStatusRepository;
 import com.helpdeskservice.repositories.TicketRepository;
 import com.helpdeskservice.service.TicketService;
+import com.helpdeskservice.utils.Utils;
 
 @Service
 public class TicketServiceImpl implements TicketService{
@@ -22,9 +26,12 @@ public class TicketServiceImpl implements TicketService{
 	@Autowired
 	private ChangesStatusRepository changesStatusRepository; 
 	
+	@Autowired
+	private Utils util;
 	
 	@Override
-	public Ticket createOrUpdate(Ticket ticket) {
+	public Ticket createOrUpdate(Ticket ticket, HttpServletRequest request) {
+		creatadeTicket(ticket, request);
 		return this.ticketRepository.save(ticket);
 	}
 
@@ -89,6 +96,13 @@ public class TicketServiceImpl implements TicketService{
 			String priority, String assignedUser) {
 		Pageable pages = new PageRequest(page, count);		
 		return this.ticketRepository.findByTitleIgnoreCaseContainingAndStatusAndPriorityAndAssignedUserOrderByDateDesc(title, status, priority, pages);
+	}
+	
+	private void creatadeTicket(Ticket ticket, HttpServletRequest request) {
+		ticket.setStatus(Status.getStatus("NEW"));
+		ticket.setDate(this.util.getDateCurrente());
+		ticket.setUser(this.util.userFromRequest(request));
+		ticket.setNumber(this.util.generateNumber());
 	}
 
 }
