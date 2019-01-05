@@ -46,7 +46,7 @@ public class TicketServiceImpl implements TicketService {
 		try {
 			ticketFind = this.ticketRepository.findOne(id);
 			if(ticketFind != null) {
-				ticket.setId(id);
+				ticket = ticketFind; 
 				ticket.setStatus(Status.getStatus(status));
 				if(status.equalsIgnoreCase("ASSIGNED")) {
 					ticket.setAssignedUser(this.util.userFromRequest(request));
@@ -76,6 +76,7 @@ public class TicketServiceImpl implements TicketService {
 	public Ticket findById(String id) {
 		Ticket ticket = this.ticketRepository.findOne(id);
 		if (ticket.getId() != null) {
+			ticket.getUser().setPassword(null);
 			ticket.setChanges(findChanges(ticket.getId()));
 		}
 		return ticket;
@@ -130,7 +131,7 @@ public class TicketServiceImpl implements TicketService {
 			String userId) {
 		Pageable pages = new PageRequest(page, count);
 		return this.ticketRepository.findByTitleIgnoreCaseContainingAndStatusAndPriorityAndUserIdOrderByDateDesc(title,
-				status, priority, pages);
+				status, priority,userId, pages);
 	}
 
 	@Override
@@ -149,7 +150,7 @@ public class TicketServiceImpl implements TicketService {
 			String priority, String assignedUser) {
 		Pageable pages = new PageRequest(page, count);
 		return this.ticketRepository.findByTitleIgnoreCaseContainingAndStatusAndPriorityAndAssignedUserOrderByDateDesc(
-				title, status, priority, pages);
+				title, status, priority,assignedUser, pages);
 	}
 
 	private void creatadeOrUpdadteTicket(Ticket ticket, HttpServletRequest request) {
@@ -158,6 +159,7 @@ public class TicketServiceImpl implements TicketService {
 			if (ticketFind != null) {
 				ticket.setStatus(ticketFind.getStatus());
 				ticket.setUser(ticketFind.getUser());
+				ticket.getUser().setPassword(null);
 				ticket.setDate(ticketFind.getDate());
 				ticket.setNumber(ticketFind.getNumber());
 				if (ticketFind.getAssignedUser() != null) {
@@ -168,6 +170,7 @@ public class TicketServiceImpl implements TicketService {
 			ticket.setStatus(Status.getStatus("NEW"));
 			ticket.setDate(this.util.getDateCurrente());
 			ticket.setUser(this.util.userFromRequest(request));
+			ticket.getUser().setPassword(null);
 			ticket.setNumber(this.util.generateNumber());
 		}
 		return;
