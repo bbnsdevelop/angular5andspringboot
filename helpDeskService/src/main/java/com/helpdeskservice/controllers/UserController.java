@@ -121,14 +121,17 @@ public class UserController {
 	private void validateCreateUser(User user, BindingResult result) {
 		if(user.getEmail() == null) {
 			result.addError(new ObjectError("User", "Email no information"));
+			return;
 		}
 	}
 	private void validateUpdateUser(User user, BindingResult result) {
 		if(user.getId() == null) {
 			result.addError(new ObjectError("User", "Id no information"));
+			return;
 		}
 		if(user.getEmail() == null) {
 			result.addError(new ObjectError("User", "Email no information"));
+			return;
 		}
 	}
 }

@@ -1,5 +1,9 @@
 package com.helpdeskservice.service.impl;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.helpdeskservice.entities.ChangesStatus;
 import com.helpdeskservice.entities.Ticket;
+import com.helpdeskservice.entities.User;
 import com.helpdeskservice.entities.enumerators.Status;
 import com.helpdeskservice.repositories.ChangesStatusRepository;
 import com.helpdeskservice.repositories.TicketRepository;
@@ -17,32 +22,78 @@ import com.helpdeskservice.service.TicketService;
 import com.helpdeskservice.utils.Utils;
 
 @Service
-public class TicketServiceImpl implements TicketService{
+public class TicketServiceImpl implements TicketService {
 
-	
 	@Autowired
 	private TicketRepository ticketRepository;
-	
+
 	@Autowired
-	private ChangesStatusRepository changesStatusRepository; 
-	
+	private ChangesStatusRepository changesStatusRepository;
+
 	@Autowired
 	private Utils util;
-	
+
 	@Override
 	public Ticket createOrUpdate(Ticket ticket, HttpServletRequest request) {
-		creatadeTicket(ticket, request);
+		creatadeOrUpdadteTicket(ticket, request);
 		return this.ticketRepository.save(ticket);
+	}
+	
+	@Override
+	public Ticket createOrUpdateTicketWithIdAndStatus(Ticket ticket, String id, String status,
+			HttpServletRequest request) {
+		Ticket ticketFind= null;
+		try {
+			ticketFind = this.ticketRepository.findOne(id);
+			if(ticketFind != null) {
+				ticket.setId(id);
+				ticket.setStatus(Status.getStatus(status));
+				if(status.equalsIgnoreCase("ASSIGNED")) {
+					ticket.setAssignedUser(this.util.userFromRequest(request));
+				}
+				ticketFind = this.ticketRepository.save(ticket);
+				saveChangeStatusWithTiket(ticketFind, ticket.getAssignedUser());
+			}else {
+				throw new Exception("Register not found id:" + id);
+			}			
+		} catch (Exception e) {
+		}
+		
+		return ticketFind;
+	}
+
+	private void saveChangeStatusWithTiket(Ticket ticketFind, User user) {
+		ChangesStatus changesStatus = new ChangesStatus();
+		changesStatus.setUserChange(user);
+		changesStatus.setDateChangeStatus(this.util.getDateCurrente());
+		changesStatus.setStatus(ticketFind.getStatus());
+		changesStatus.setTicket(ticketFind);
+		this.createChangeStatus(changesStatus);	
+		
 	}
 
 	@Override
 	public Ticket findById(String id) {
-		return this.ticketRepository.findOne(id);
+		Ticket ticket = this.ticketRepository.findOne(id);
+		if (ticket.getId() != null) {
+			ticket.setChanges(findChanges(ticket.getId()));
+		}
+		return ticket;
 	}
 
 	@Override
 	public void delete(String id) {
-		this.ticketRepository.delete(id);
+		try {
+			Ticket ticket = this.ticketRepository.findOne(id);
+			if (ticket == null) {
+				throw new Exception("Register not found id:" + id);
+			} else {
+				this.ticketRepository.delete(id);
+			}
+		} 
+		catch (Exception e) {
+		
+		}
 	}
 
 	@Override
@@ -70,14 +121,16 @@ public class TicketServiceImpl implements TicketService{
 	@Override
 	public Page<Ticket> findByParameters(int page, int count, String title, String status, String priority) {
 		Pageable pages = new PageRequest(page, count);
-		return this.ticketRepository.findByTitleIgnoreCaseContainingAndStatusAndPriorityOrderByDateDesc(title, status, priority, pages);
+		return this.ticketRepository.findByTitleIgnoreCaseContainingAndStatusAndPriorityOrderByDateDesc(title, status,
+				priority, pages);
 	}
 
 	@Override
 	public Page<Ticket> findByParametersCurrentUser(int page, int count, String title, String status, String priority,
 			String userId) {
 		Pageable pages = new PageRequest(page, count);
-		return this.ticketRepository.findByTitleIgnoreCaseContainingAndStatusAndPriorityAndUserIdOrderByDateDesc(title, status, priority, pages); 
+		return this.ticketRepository.findByTitleIgnoreCaseContainingAndStatusAndPriorityAndUserIdOrderByDateDesc(title,
+				status, priority, pages);
 	}
 
 	@Override
@@ -94,15 +147,43 @@ public class TicketServiceImpl implements TicketService{
 	@Override
 	public Page<Ticket> findByParameterAndAssignedUser(int page, int count, String title, String status,
 			String priority, String assignedUser) {
-		Pageable pages = new PageRequest(page, count);		
-		return this.ticketRepository.findByTitleIgnoreCaseContainingAndStatusAndPriorityAndAssignedUserOrderByDateDesc(title, status, priority, pages);
+		Pageable pages = new PageRequest(page, count);
+		return this.ticketRepository.findByTitleIgnoreCaseContainingAndStatusAndPriorityAndAssignedUserOrderByDateDesc(
+				title, status, priority, pages);
 	}
-	
-	private void creatadeTicket(Ticket ticket, HttpServletRequest request) {
-		ticket.setStatus(Status.getStatus("NEW"));
-		ticket.setDate(this.util.getDateCurrente());
-		ticket.setUser(this.util.userFromRequest(request));
-		ticket.setNumber(this.util.generateNumber());
+
+	private void creatadeOrUpdadteTicket(Ticket ticket, HttpServletRequest request) {
+		if (ticket.getId() != null) {
+			Ticket ticketFind = this.ticketRepository.findOne(ticket.getId());
+			if (ticketFind != null) {
+				ticket.setStatus(ticketFind.getStatus());
+				ticket.setUser(ticketFind.getUser());
+				ticket.setDate(ticketFind.getDate());
+				ticket.setNumber(ticketFind.getNumber());
+				if (ticketFind.getAssignedUser() != null) {
+					ticket.setAssignedUser(ticketFind.getAssignedUser());
+				}
+			}
+		} else {
+			ticket.setStatus(Status.getStatus("NEW"));
+			ticket.setDate(this.util.getDateCurrente());
+			ticket.setUser(this.util.userFromRequest(request));
+			ticket.setNumber(this.util.generateNumber());
+		}
+		return;
 	}
+
+	private List<ChangesStatus> findChanges(String ticketId) {
+		List<ChangesStatus> changes = new ArrayList<ChangesStatus>();
+		Iterable<ChangesStatus> changesCurrent = this.changesStatusRepository
+				.findByTicketIdOrderByDateChangeStatusDesc(ticketId);
+		for (Iterator<ChangesStatus> iterator = changesCurrent.iterator(); iterator.hasNext();) {
+			ChangesStatus changesStatus = (ChangesStatus) iterator.next();
+			changesStatus.setTicket(null);
+			changes.add(changesStatus);
+		}
+		return changes;
+	}
+
 
 }

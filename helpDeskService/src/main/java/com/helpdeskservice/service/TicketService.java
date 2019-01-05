@@ -34,5 +34,7 @@ public interface TicketService {
 	Iterable<Ticket> findAll();
 	
 	Page<Ticket> findByParameterAndAssignedUser(int page, int count, String title, String status, String priority, String assignedUser);
+
+	Ticket createOrUpdateTicketWithIdAndStatus(Ticket ticket, String id, String status, HttpServletRequest request);
 	 
 }
