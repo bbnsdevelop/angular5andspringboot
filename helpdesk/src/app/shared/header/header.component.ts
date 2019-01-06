@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { UserServiceImpl } from '../service/impl/user.service'
+import { UserService } from '../service/user-service-interface'
 
 @Component({
   selector: 'app-header',
@@ -7,7 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  //private userService: UserService;
+
+  constructor(/*private userServiceImpl: UserServiceImpl*/) {
+    //this.userService = this.userServiceImpl;
+  }
 
   ngOnInit() {
   }
