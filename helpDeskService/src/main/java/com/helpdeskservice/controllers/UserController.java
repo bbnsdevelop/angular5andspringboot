@@ -31,107 +31,122 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
-	
+
 	@PostMapping("/user")
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	public ResponseEntity<Response<User>> create(HttpServletRequest request, 
-			@RequestBody User user, BindingResult result) {
+	public ResponseEntity<Response<User>> create(HttpServletRequest request, @RequestBody User user,
+			BindingResult result) {
 		Response<User> response = new Response<User>();
 		try {
 			validateCreateUser(user, result);
-			if(result.hasErrors()) {
+			if (result.hasErrors()) {
 				result.getAllErrors().forEach(error -> response.getErros().add(error.getDefaultMessage()));
 				return ResponseEntity.badRequest().body(response);
 			}
 			user.setPassword(this.passwordEncoder.encode(user.getPassword()));
 			response.setData(this.userService.createdOrUpdate(user));
-			
+
 		} catch (DuplicateKeyException de) {
 			response.getErros().add("Email already registered !");
 			return ResponseEntity.badRequest().body(response);
-		}
-		catch (Exception ee) {
-			response.getErros().add(ee.getMessage());
-			return ResponseEntity.badRequest().body(response);
-		}
-		return ResponseEntity.ok(response);
-	}
-	
-	@PutMapping("/user")
-	@PreAuthorize("hasAnyRole('ADMIN')")
-	public ResponseEntity<Response<User>> update(HttpServletRequest request, 
-			@RequestBody User user, BindingResult result){
-		Response<User> response = new Response<User>();
-		try {
-			validateUpdateUser(user, result);
-			if(result.hasErrors()) {
-				result.getAllErrors().forEach(error -> response.getErros().add(error.getDefaultMessage()));
-				return ResponseEntity.badRequest().body(response);
-			}
-			user.setPassword(this.passwordEncoder.encode(user.getPassword()));
-			response.setData(this.userService.createdOrUpdate(user));
-			
 		} catch (Exception ee) {
 			response.getErros().add(ee.getMessage());
 			return ResponseEntity.badRequest().body(response);
 		}
-		
-		
 		return ResponseEntity.ok(response);
 	}
-	
+
+	@PutMapping("/user")
+	@PreAuthorize("hasAnyRole('ADMIN')")
+	public ResponseEntity<Response<User>> update(HttpServletRequest request, @RequestBody User user,
+			BindingResult result) {
+		Response<User> response = new Response<User>();
+		try {
+			validateUpdateUser(user, result);
+			if (result.hasErrors()) {
+				result.getAllErrors().forEach(error -> response.getErros().add(error.getDefaultMessage()));
+				return ResponseEntity.badRequest().body(response);
+			}
+			user.setPassword(this.passwordEncoder.encode(user.getPassword()));
+			response.setData(this.userService.createdOrUpdate(user));
+
+		} catch (Exception ee) {
+			response.getErros().add(ee.getMessage());
+			return ResponseEntity.badRequest().body(response);
+		}
+
+		return ResponseEntity.ok(response);
+	}
+
 	@GetMapping("/user/{page}/{count}")
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	public ResponseEntity<Response<Page<User>>> findAll(@PathVariable("page") int page, @PathVariable("count") int count){
-		Response<Page<User>> response = new Response<Page<User>>(); 
-		response.setData(this.userService.findAll(page, count));		
+	public ResponseEntity<Response<Page<User>>> findAll(@PathVariable("page") int page,
+			@PathVariable("count") int count) {
+		Response<Page<User>> response = new Response<Page<User>>();
+		response.setData(this.userService.findAll(page, count));
 		return ResponseEntity.ok(response);
 	}
-	
+
 	@GetMapping("/user/{id}")
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	public ResponseEntity<Response<User>> findById(@PathVariable("id") String id){
+	public ResponseEntity<Response<User>> findById(@PathVariable("id") String id) {
 		Response<User> response = new Response<User>();
 		User user = this.userService.findById(id);
-		if(user == null) {
+		if (user == null) {
 			response.getErros().add("Register not found id: " + id);
 			return ResponseEntity.badRequest().body(response);
 		}
-		response.setData(user);		
+		response.setData(user);
 		return ResponseEntity.ok(response);
 	}
-	
+
 	@DeleteMapping("/user/{id}")
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	public ResponseEntity<Response<String>> delete(@PathVariable("id") String id){
+	public ResponseEntity<Response<String>> delete(@PathVariable("id") String id) {
 		Response<String> response = new Response<String>();
 		User user = this.userService.findById(id);
-		if(user == null) {
+		if (user == null) {
 			response.getErros().add("Register not found id: " + id);
 			return ResponseEntity.badRequest().body(response);
 		}
-		this.userService.delete(id);				
+		this.userService.delete(id);
 		return ResponseEntity.ok(response);
 	}
-	
+
 	private void validateCreateUser(User user, BindingResult result) {
-		if(user.getEmail() == null) {
+		if (user.getEmail() == null) {
 			result.addError(new ObjectError("User", "Email no information"));
 			return;
 		}
 	}
+
 	private void validateUpdateUser(User user, BindingResult result) {
-		if(user.getId() == null) {
+		if (user.getId() == null) {
 			result.addError(new ObjectError("User", "Id no information"));
 			return;
 		}
-		if(user.getEmail() == null) {
+		if (user.getEmail() == null) {
 			result.addError(new ObjectError("User", "Email no information"));
 			return;
+		}
+		encodingPassword(user, result);
+	}
+
+	private void encodingPassword(User user, BindingResult result) {
+		if (user.getId() != null || !user.getId().equals("")) {
+			User userFind = this.userService.findByEmail(user.getEmail());
+			if (userFind != null) {
+				if (!user.getPassword().equals(userFind.getPassword())) {
+					user.setPassword(this.passwordEncoder.encode(user.getPassword()));
+					return;
+				}
+			} else {
+				result.addError(new ObjectError("User", "User not found"));
+				return;
+			}
 		}
 	}
 }
