@@ -7,5 +7,6 @@ export interface UserService {
   findAll(page: number, count: number);
   findById(id: number);
   deleteById(id: number);
+  delete(id: number);
 
 }
