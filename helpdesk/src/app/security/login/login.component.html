@@ -1,3 +1,33 @@
-<p>
-  login works!
-</p>
+<div class="col-md-6" style="margin-left: 20%">
+          <div class="box box-info">
+            <div class="box-header with-border">
+              <h3 class="box-title">Help Desk | login </h3>
+            </div>
+            <form class="form-horizontal" [formGroup]="loginFormulario" (ngSubmit)="login()">
+              <div class="alert alert-error" role="alert" *ngIf="message">
+                <strong> Invalid email or passowrd!</strong>
+              </div>
+              <div class="box-body">
+                <div [ngClass]="getClassFormGroupClass(loginFormulario.get('email').invalid, loginFormulario.get('email').dirty)">
+                  <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+
+                  <div class="col-sm-10">
+                    <input type="email" class="form-control" id="inputEmail3" placeholder="Email" formControlName="email" required>
+                    <span class="help-block" *ngIf="loginFormulario.get('email').invalid && loginFormulario.get('email').dirty">Email is invalid</span>
+                  </div>
+                </div>
+                <div [ngClass]="getClassFormGroupClass(loginFormulario.get('password').invalid, loginFormulario.get('password').dirty)">
+                  <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+
+                  <div class="col-sm-10">
+                      <input type="password" class="form-control" id="inputPassword3" placeholder="Password" formControlName="password" required>
+                      <span class="help-block" *ngIf="loginFormulario.get('password').invalid && loginFormulario.get('password').dirty">Passowrd is riquired</span>
+                  </div>
+                </div>
+              </div>
+              <div class="box-footer">
+                <button (click)="cancelLogin()" class="btn btn-default">Cancel</button>
+                <button type="submit" [disabled]="!loginFormulario.valid" class="btn btn-info pull-right">Login</button>
+              </div>
+            </form>
+          </div>
