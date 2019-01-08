@@ -8,6 +8,9 @@ import { UserService } from '../user-service-interface';
   providedIn: 'root'
 })
 export class UserServiceImpl implements UserService {
+  delete(id: number) {
+    throw new Error("Method not implemented.");
+  }
 
   private AUTHENTICATION = '/api/auth';
   private USERAPI = '/api/user';

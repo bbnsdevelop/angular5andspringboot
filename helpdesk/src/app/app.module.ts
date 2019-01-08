@@ -3,14 +3,20 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
+import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './security/login/login.component';
+import { routes } from './app.routes';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HomeComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
-    SharedModule
+    SharedModule,
+    routes
   ],
   providers: [],
   bootstrap: [AppComponent]
