@@ -36,19 +36,21 @@ export class LoginComponent implements OnInit {
     this.message = '';
     this.user.email = this.loginFormulario.get('email').value;
     this.user.password = this.loginFormulario.get('password').value;
-    this.userService.login(this.user).subscribe((userAuthentication: CurrentUser) =>{
-      this.shared.token = userAuthentication.token;
-      this.shared.user = userAuthentication.user;
-      this.shared.user.profile = this.shared.user.profile.substring(5);
-      this.shared.showTemplate.emit(true);
-      this.router.navigate(['/']);
-    }, err =>{
-      this.shared.token = null;
-      this.shared.user = null;
-      this.shared.showTemplate.emit(false);
-      this.message = 'Erro';
+    if(this.user.email != null && this.user.password != null){
+      this.userService.login(this.user).subscribe((userAuthentication: CurrentUser) =>{
+        this.shared.token = userAuthentication.token;
+        this.shared.user = userAuthentication.user;
+        this.shared.user.profile = this.shared.user.profile.substring(5);
+        this.shared.showTemplate.emit(true);
+        this.router.navigate(['/']);
+      }, err =>{
+        this.shared.token = null;
+        this.shared.user = null;
+        this.shared.showTemplate.emit(false);
+        this.message = 'Erro';
 
-    });
+      });
+    }
   }
   cancelLogin(){
     this.user = new User('','','','');
@@ -58,9 +60,9 @@ export class LoginComponent implements OnInit {
   }
   getClassFormGroupClass(isValid: boolean, isDirty: boolean):{} {
     return{
-      'form-grouo': true,
+      'form-group': true,
       'has-error': isValid && isDirty,
-      'has-sucess': !isValid && isDirty
+      'has-success': !isValid && isDirty
     };
   }
 }

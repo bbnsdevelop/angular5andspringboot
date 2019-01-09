@@ -6,6 +6,9 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './security/login/login.component';
 import { routes } from './app.routes';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+
+import { AuthInterceptor } from './security/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -18,7 +21,13 @@ import { routes } from './app.routes';
     SharedModule,
     routes
   ],
-  providers: [],
+  providers: [
+      {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

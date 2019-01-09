@@ -18,8 +18,14 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.shared.showTemplate.subscribe(
-      show => this.showTemplate = show
+      (show: boolean) => this.showTemplate = show
     );
+  }
+
+  showClassContentWrapper():{}{
+    return {
+      'content-wrapper': this.shared.isLoggedIn()
+    };
   }
 
 }
