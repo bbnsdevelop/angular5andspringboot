@@ -10,6 +10,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AuthInterceptor } from './security/auth.interceptor';
 import { AppRoutingModule } from './app.routing.module';
+import { UsersModule } from './users/users.module';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { AppRoutingModule } from './app.routing.module';
   imports: [
     BrowserModule,
     SharedModule,
-    AppRoutingModule
+    AppRoutingModule,
+    UsersModule
   ],
   providers: [
       {

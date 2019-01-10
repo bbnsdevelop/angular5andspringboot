@@ -11,7 +11,6 @@ const APP_ROUTES: Routes = [
                       canActivateChild:[UserGuard],
                       canLoad: [AuthGuard]
     },
-    //helpdesk/src/app/users/users.module.ts
     {
       path : '', component : HomeComponent, canActivate: [AuthGuard]
     },
@@ -22,7 +21,7 @@ const APP_ROUTES: Routes = [
 
 
 @NgModule({
-  imports:[RouterModule.forRoot(APP_ROUTES, { useHash: false })],
+  imports:[RouterModule.forRoot(APP_ROUTES, { useHash: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule {
