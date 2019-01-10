@@ -19,9 +19,9 @@ import { Profile } from '../../shared/model/profile.model';
 export class UserNewComponent implements OnInit {
 
   userNewFormulario: FormGroup;
-  user = new User('','','','');
+  user = new User('', '', '' , '');
   shared: SharedService;
-  message: {type: string, text:string};
+  message: {type: string, text: string};
   classCss: {};
   userService: UserService;
   profileService: ProfileService;
@@ -38,16 +38,16 @@ export class UserNewComponent implements OnInit {
   ngOnInit() {
     this.instanceOfForms();
     this.getProfiles();
-    let id = this.getUserId();
-    if(id != undefined){
+    const id = this.getUserId();
+    if (id) {
       this.findByid(id);
     }
   }
 
-  findByid(id: string){
-    this.userService.findById(id).subscribe((response: Response) =>{
+  findByid(id: string) {
+    this.userService.findById(id).subscribe((response: Response) => {
        this.user = response.data;
-    }, error =>{
+    }, (error) => {
       this.showMessage({
         type: 'error',
         text: error['error']['errors'][0]
@@ -55,42 +55,42 @@ export class UserNewComponent implements OnInit {
     });
   }
 
-  register(){
+  register() {
     this.message = null;
     this.getUserForms();
-    this.userService.createOrUpdate(this.user).subscribe((response: Response) =>{
-      this.user = new User('','','','');
-      let user: User = response.data;
+    this.userService.createOrUpdate(this.user).subscribe((response: Response) => {
+      this.user = new User('', '', '', '');
+      const user: User = response.data;
       this.instanceOfForms();
       this.showMessage({
         type: 'success',
         text: `Registered ${user.email} successfully`
       });
-    }, error =>{
+    }, (error) => {
       this.showMessage({
         type: 'error',
         text: error['error']['errors'][0]
       });
-    })
+    });
   }
 
-  private showMessage(message :{type: string, text: string}): void {
+  private showMessage(message: {type: string, text: string}): void {
     this.message = message;
     this.classCss = Utils.buildClass(message.type);
-    setTimeout(() =>{
-      this.message = undefined
+    setTimeout(() => {
+      this.message = undefined;
     }, 3000);
   }
 
-  private getUserId(): string{
+  private getUserId(): string {
     return this.route.snapshot.params['id'];
   }
 
-  getClassFormGroupClass(isValid: boolean, isDirty: boolean):{} {
+  getClassFormGroupClass(isValid: boolean, isDirty: boolean): {} {
     return Utils.getFormGroupClass(isValid, isDirty);
   }
 
-  private instanceOfForms(){
+  private instanceOfForms() {
     this.userNewFormulario = this.formBuilder.group({
       email: [null, [Validators.required, Validators.email]],
       password: [null, [Validators.minLength(6), Validators.required]],
@@ -99,20 +99,20 @@ export class UserNewComponent implements OnInit {
   }
 
   private getProfiles(): void {
-    this.profileService.getProfiles().subscribe((response: Array<Profile>)=>{
+    this.profileService.getProfiles().subscribe((response: Array<Profile>) => {
       this.profiles = response;
-    }, error =>{
+    }, (error) => {
       this.showMessage({
         type: 'error',
         text: `Erro ao buscar os profiles: ${error}`
       });
-    })
+    });
   }
 
-  private getUserForms(): void{
-    let email: string = this.userNewFormulario.get('email').value;
-    let password: string = this.userNewFormulario.get('password').value;
-    let profile: string = this.userNewFormulario.get('profile').value;
+  private getUserForms(): void {
+    const email: string = this.userNewFormulario.get('email').value;
+    const password: string = this.userNewFormulario.get('password').value;
+    const profile: string = this.userNewFormulario.get('profile').value;
     this.user = new User(null, email, password, profile);
   }
 

@@ -10,21 +10,21 @@ export class AuthInterceptor implements HttpInterceptor {
 
   shared: SharedService;
 
-  constructor(){
+  constructor() {
     this.shared = SharedService.getInstance();
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let authRequest: any;
 
-    if(this.shared.isLoggedIn()){
+    if (this.shared.isLoggedIn()) {
       authRequest = req.clone({
         setHeaders: {
           'Authorization': this.shared.token
         }
       });
       return next.handle(authRequest);
-    }else{
+    } else {
       return next.handle(req);
     }
   }

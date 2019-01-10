@@ -1,11 +1,11 @@
 import { SharedModule } from './../shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserNewComponent } from './user-new/user-new.component'
+import { UserNewComponent } from './user-new/user-new.component';
 
-//import { routesUser } from './user.routes'
+// import { routesUser } from './user.routes'
 import { UserRoutingModule } from './user.routing.module';
-import { UserListComponent } from './user-list/user-list.component'
+import { UserListComponent } from './user-list/user-list.component';
 
 @NgModule({
   declarations: [
@@ -17,8 +17,7 @@ import { UserListComponent } from './user-list/user-list.component'
     SharedModule,
     UserRoutingModule
   ],
-  exports:[
-
+  exports: [
   ]
 })
 export class UsersModule { }
