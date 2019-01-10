@@ -5,21 +5,23 @@ import { SharedModule } from './shared/shared.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './security/login/login.component';
-import { routes } from './app.routes';
+//import { routes } from './app.routes';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AuthInterceptor } from './security/auth.interceptor';
+import { AppRoutingModule } from './app.routing.module';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
     SharedModule,
-    routes
+    AppRoutingModule
   ],
   providers: [
       {

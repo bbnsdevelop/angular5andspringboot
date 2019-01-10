@@ -45,7 +45,7 @@ public class TicketController {
 		try {
 			validateCreate(ticket, result);
 			if (result.hasErrors()) {
-				result.getAllErrors().forEach(error -> response.getErros().add(error.getDefaultMessage()));
+				result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
 				return ResponseEntity.badRequest().body(response);
 			}
 			response.setData(this.ticketService.createOrUpdate(ticket, request));
@@ -64,7 +64,7 @@ public class TicketController {
 		try {
 			validateUpdate(ticket, result);
 			if (result.hasErrors()) {
-				result.getAllErrors().forEach(error -> response.getErros().add(error.getDefaultMessage()));
+				result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
 				return ResponseEntity.badRequest().body(response);
 			}
 			response.setData(this.ticketService.createOrUpdate(ticket, request));
@@ -80,7 +80,7 @@ public class TicketController {
 		Response<Ticket> response = new Response<Ticket>();
 		Ticket ticket = this.ticketService.findById(id);
 		if (ticket == null) {
-			response.getErros().add("Register not found id:" + id);
+			response.getErrors().add("Register not found id:" + id);
 			return ResponseEntity.badRequest().body(response);
 		} else {
 			response.setData(ticket);
@@ -96,7 +96,7 @@ public class TicketController {
 		try {
 			this.ticketService.delete(id);
 		} catch (Exception e) {
-			response.getErros().add(e.getMessage());
+			response.getErrors().add(e.getMessage());
 			return ResponseEntity.badRequest().body(response);
 		}
 		String msg = "Ticket success has deleted";
@@ -165,13 +165,13 @@ public class TicketController {
 		try {
 			validateChangeStatus(id, status, result);
 			if(result.hasErrors()) {
-				result.getAllErrors().forEach(error -> response.getErros().add(error.getDefaultMessage()));
+				result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
 				return ResponseEntity.badRequest().body(response);
 			}
 			ticket = this.ticketService.createOrUpdateTicketWithIdAndStatus(ticket, id, status, request);
 			response.setData(ticket);			
 		} catch (Exception e) {
-			response.getErros().add(e.getMessage());
+			response.getErrors().add(e.getMessage());
 			return ResponseEntity.badRequest().body(response);
 		}
 		return ResponseEntity.ok(response);

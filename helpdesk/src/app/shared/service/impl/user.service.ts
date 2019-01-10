@@ -11,9 +11,6 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class UserServiceImpl implements UserService {
-  delete(id: number) {
-    throw new Error("Method not implemented.");
-  }
 
   private AUTHENTICATION = '/api/auth';
   private USERAPI = '/api/user';
@@ -24,7 +21,7 @@ export class UserServiceImpl implements UserService {
     return this.http.post(`${HELP_DESK_API}${this.AUTHENTICATION}`, user);
   }
 
-  createOrUpdate(user: User){
+  createOrUpdate(user: User):Observable<any>{
     if(user.id != null || user.id != ''){
       return this.http.post(`${HELP_DESK_API}${this.USERAPI}`,user);
     }else{
@@ -32,15 +29,15 @@ export class UserServiceImpl implements UserService {
     }
   }
 
-  findAll(page: number, count: number){
+  findAll(page: number, count: number):Observable<any>{
     return this.http.get(`${HELP_DESK_API}${this.USERAPI}/${page}/${count}`);
   }
 
-  findById(id: number){
+  findById(id: string):Observable<any>{
     return this.http.get(`${HELP_DESK_API}${this.USERAPI}/${id}`);
   }
 
-  deleteById(id: number){
+  delete(id: string):Observable<any>{
     return this.http.delete(`${HELP_DESK_API}${this.USERAPI}/${id}`);
   }
 }

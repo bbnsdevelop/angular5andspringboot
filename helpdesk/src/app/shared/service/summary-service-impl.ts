@@ -1,5 +1,7 @@
+import { Observable } from 'rxjs';
+
 export interface SummaryService{
 
-  summary();
+  summary():Observable<any>;
 
 }

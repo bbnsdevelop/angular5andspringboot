@@ -4,10 +4,9 @@ import { Observable } from 'rxjs';
 export interface UserService {
 
   login(user: User):Observable<any>;
-  createOrUpdate(user: User);
-  findAll(page: number, count: number);
-  findById(id: number);
-  deleteById(id: number);
-  delete(id: number);
+  createOrUpdate(user: User):Observable<any>;
+  findAll(page: number, count: number):Observable<any>;
+  findById(id: string):Observable<any>;
+  delete(id: string):Observable<any>;
 
 }

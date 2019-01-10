@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "profile": "ROLE_ADMIN",
+    "description": "Administrator"
+  },
+  {
+    "id": 2,
+    "profile": "ROLE_TECNICIAN",
+    "description": "Technician"
+  },
+  {
+    "id": 3,
+    "profile": "ROLE_CUSTOMER",
+    "description": "Customer"
+  }
+]

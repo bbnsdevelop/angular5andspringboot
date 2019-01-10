@@ -43,17 +43,17 @@ public class UserController {
 		try {
 			validateCreateUser(user, result);
 			if (result.hasErrors()) {
-				result.getAllErrors().forEach(error -> response.getErros().add(error.getDefaultMessage()));
+				result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
 				return ResponseEntity.badRequest().body(response);
 			}
 			user.setPassword(this.passwordEncoder.encode(user.getPassword()));
 			response.setData(this.userService.createdOrUpdate(user));
 
 		} catch (DuplicateKeyException de) {
-			response.getErros().add("Email already registered !");
+			response.getErrors().add("Email already registered !");
 			return ResponseEntity.badRequest().body(response);
 		} catch (Exception ee) {
-			response.getErros().add(ee.getMessage());
+			response.getErrors().add(ee.getMessage());
 			return ResponseEntity.badRequest().body(response);
 		}
 		return ResponseEntity.ok(response);
@@ -67,14 +67,14 @@ public class UserController {
 		try {
 			validateUpdateUser(user, result);
 			if (result.hasErrors()) {
-				result.getAllErrors().forEach(error -> response.getErros().add(error.getDefaultMessage()));
+				result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
 				return ResponseEntity.badRequest().body(response);
 			}
 			user.setPassword(this.passwordEncoder.encode(user.getPassword()));
 			response.setData(this.userService.createdOrUpdate(user));
 
 		} catch (Exception ee) {
-			response.getErros().add(ee.getMessage());
+			response.getErrors().add(ee.getMessage());
 			return ResponseEntity.badRequest().body(response);
 		}
 
@@ -96,7 +96,7 @@ public class UserController {
 		Response<User> response = new Response<User>();
 		User user = this.userService.findById(id);
 		if (user == null) {
-			response.getErros().add("Register not found id: " + id);
+			response.getErrors().add("Register not found id: " + id);
 			return ResponseEntity.badRequest().body(response);
 		}
 		response.setData(user);
@@ -109,7 +109,7 @@ public class UserController {
 		Response<String> response = new Response<String>();
 		User user = this.userService.findById(id);
 		if (user == null) {
-			response.getErros().add("Register not found id: " + id);
+			response.getErrors().add("Register not found id: " + id);
 			return ResponseEntity.badRequest().body(response);
 		}
 		this.userService.delete(id);

@@ -6,6 +6,7 @@ import { UserServiceImpl } from './../../shared/service/impl/user.service';
 import { UserService } from '../../shared/service/user-service-interface';
 import { CurrentUser } from '../../shared/model/current-user.model'
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Utils } from 'src/app/shared/utils/Utils';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,7 @@ export class LoginComponent implements OnInit {
   message: string;
   userService: UserService;
 
-  constructor(private userServiceImpl: UserServiceImpl, private router: Router, private formBuilder: FormBuilder, ) {
+  constructor(private userServiceImpl: UserServiceImpl, private router: Router, private formBuilder: FormBuilder) {
     this.shared = SharedService.getInstance();
     this.userService = this.userServiceImpl;
   }
@@ -59,10 +60,6 @@ export class LoginComponent implements OnInit {
     window.location.reload();
   }
   getClassFormGroupClass(isValid: boolean, isDirty: boolean):{} {
-    return{
-      'form-group': true,
-      'has-error': isValid && isDirty,
-      'has-success': !isValid && isDirty
-    };
+    return Utils.getFormGroupClass(isValid, isDirty);
   }
 }

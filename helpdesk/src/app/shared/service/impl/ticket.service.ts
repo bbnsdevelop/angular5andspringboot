@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http'
 import { TicketService } from '../ticket-service-interface';
 import { Ticket } from '../../model/ticket.model';
 import { HELP_DESK_API } from '../../config/help-desk-api';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class TicketServiceImpl implements TicketService {
 
   }
 
-  createOrUpdate(ticket: Ticket){
+  createOrUpdate(ticket: Ticket):Observable<any>{
     if(ticket.id != null || ticket.id != ''){
       return this.http.put(`${HELP_DESK_API}${this.TICKETAPI}`, ticket);
     }else{
@@ -23,19 +24,19 @@ export class TicketServiceImpl implements TicketService {
     }
   }
 
-  findAll(page: number, count: number){
+  findAll(page: number, count: number):Observable<any>{
     return this.http.get(`${HELP_DESK_API}${this.TICKETAPI}/${page}/${count}`);
   }
 
-  findById(id: number){
+  findById(id: number):Observable<any>{
     return this.http.get(`${HELP_DESK_API}${this.TICKETAPI}/${id}`);
   }
 
-  delete(id: number){
+  delete(id: number):Observable<any>{
     return this.http.delete(`${HELP_DESK_API}${this.TICKETAPI}/${id}`);
   }
 
-  findParameter(page: number, count: number, assigned: boolean, t: Ticket){
+  findParameter(page: number, count: number, assigned: boolean, t: Ticket):Observable<any>{
     t.number = t.number == null ? 0 : t.number;
     t.title = t.title == '' ? 'uninformed' : t.title;
     t.status = t.status == '' ? 'uninformed' : t.status;
@@ -43,7 +44,7 @@ export class TicketServiceImpl implements TicketService {
     return this.http.get(`${HELP_DESK_API}${this.TICKETAPI}/${page}/${count}/${t.number}/${t.title}/${t.status}/${t.priority}/${assigned}`);
   }
 
-  changeStatus(status: string, ticket: Ticket){
+  changeStatus(status: string, ticket: Ticket):Observable<any>{
     return this.http.put(`${HELP_DESK_API}${this.TICKETAPI}/${ticket.id}/${status}`, ticket);
   }
 
