@@ -44,6 +44,31 @@ export class UserListComponent implements OnInit {
       });
     });
   }
+  edit(id: string){
+    this.router.navigate(['/user', id])
+  }
+  delete(id: string){
+    this.dialogService.confirm('Do you want to delete the user?')
+    .then((canDelete: boolean)=>{
+      if(canDelete){
+        this.message = null;
+        this.userService.delete(id).subscribe((response: Response) =>{
+          this.showMessage({
+            type: 'success',
+            text: response.data
+          });
+          this.findAllUser(this.page, this.count);
+        }, error =>{
+          this.showMessage({
+            type: 'error',
+            text: error['error']['errors'][0]
+          });
+        })
+      }
+    });
+
+  }
+
 
   private showMessage(message :{type: string, text: string}): void {
     this.message = message;
