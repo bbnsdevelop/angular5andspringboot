@@ -26,6 +26,7 @@ export class UserNewComponent implements OnInit {
   userService: UserService;
   profileService: ProfileService;
   profiles: Array<Profile>;
+  update: boolean;
 
   constructor(private formBuilder: FormBuilder, private userServiceImpl: UserServiceImpl, private route: ActivatedRoute,
               private profileServiceImpl: ProfileServiceImpl) {
@@ -36,6 +37,7 @@ export class UserNewComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.update = false;
     this.instanceOfForms();
     this.getProfiles();
     let id = this.getUserId();
@@ -53,6 +55,7 @@ export class UserNewComponent implements OnInit {
         text: error['error']['errors'][0]
       });
     });
+    this.updateForms(this.user);
   }
 
   register(){
@@ -62,10 +65,17 @@ export class UserNewComponent implements OnInit {
       this.user = new User('','','','');
       let user: User = response.data;
       this.instanceOfForms();
-      this.showMessage({
-        type: 'success',
-        text: `Registered ${user.email} successfully`
-      });
+      if(this.update){
+        this.showMessage({
+          type: 'success',
+          text: `Updadte user ${user.email} successfully`
+        });
+      }else{
+        this.showMessage({
+          type: 'success',
+          text: `Registered ${user.email} successfully`
+        });
+      }
     }, error =>{
       this.showMessage({
         type: 'error',
@@ -104,7 +114,7 @@ export class UserNewComponent implements OnInit {
     }, error =>{
       this.showMessage({
         type: 'error',
-        text: `Erro ao buscar os profiles: ${error}`
+        text: `Erro ao buscar profiles: ${error}`
       });
     })
   }
@@ -114,6 +124,16 @@ export class UserNewComponent implements OnInit {
     let password: string = this.userNewFormulario.get('password').value;
     let profile: string = this.userNewFormulario.get('profile').value;
     this.user = new User(null, email, password, profile);
+  }
+
+  private updateForms(user: User){
+    this.userNewFormulario.patchValue({
+      email : user.email,
+      password: user.password,
+      profile: user.profile
+    });
+
+    this.update = true;
   }
 
 

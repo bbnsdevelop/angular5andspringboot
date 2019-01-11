@@ -5,7 +5,7 @@
     </div>
     <form class="form-horizontal" [formGroup]="userNewFormulario" (ngSubmit)="register()">
       <div [ngClass]="classCss" role="alert" *ngIf="message">
-        <strong> {{ message.text }}</strong>
+        <span> {{ message.text }}</span>
       </div>
       <div class="box-body">
         <div [ngClass]="getClassFormGroupClass(userNewFormulario.get('email').invalid, userNewFormulario.get('email').dirty)">
@@ -36,7 +36,8 @@
         </div>
       </div>
       <div class="box-footer">
-        <button type="submit" [disabled]="!userNewFormulario.valid" class="btn btn-info pull-right">Create</button>
+        <button type="submit" *nfIf="!update" [disabled]="!userNewFormulario.valid" class="btn btn-info pull-right">Create</button>
+        <button type="submit" *nfIf="update" [disabled]="!userNewFormulario.valid" class="btn btn-info pull-right">Update</button>
       </div>
     </form>
   </div>
