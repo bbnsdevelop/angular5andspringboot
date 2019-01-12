@@ -40,22 +40,6 @@ export class UserNewComponent implements OnInit {
     this.update = false;
     this.instanceOfForms();
     this.getProfiles();
-    let id = this.getUserId();
-    if(id != undefined){
-      this.findByid(id);
-    }
-  }
-
-  findByid(id: string){
-    this.userService.findById(id).subscribe((response: Response) =>{
-       this.user = response.data;
-    }, error =>{
-      this.showMessage({
-        type: 'error',
-        text: error['error']['errors'][0]
-      });
-    });
-    this.updateForms(this.user);
   }
 
   register(){
@@ -92,10 +76,6 @@ export class UserNewComponent implements OnInit {
     }, 3000);
   }
 
-  private getUserId(): string{
-    return this.route.snapshot.params['id'];
-  }
-
   getClassFormGroupClass(isValid: boolean, isDirty: boolean):{} {
     return Utils.getFormGroupClass(isValid, isDirty);
   }
@@ -126,15 +106,10 @@ export class UserNewComponent implements OnInit {
     this.user = new User(null, email, password, profile);
   }
 
-  private updateForms(user: User){
-    this.userNewFormulario.patchValue({
-      email : user.email,
-      password: user.password,
-      profile: user.profile
-    });
 
-    this.update = true;
-  }
+
+
+
 
 
 

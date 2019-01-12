@@ -1,0 +1,52 @@
+<div class="col-md-8" style="margin-left:0%" *ngIf="update">
+  <div class="box box-info">
+    <div class="box-header with-border">
+      <h3 class="box-title">Details user</h3>
+    </div>
+    <form class="form-horizontal" [formGroup]="userDetailsFormulario" (ngSubmit)="register()">
+      <div [ngClass]="classCss" role="alert" *ngIf="message">
+        <span> {{ message.text }}</span>
+      </div>
+      <div class="box-body">
+          <div [ngClass]="getClassFormGroupClass(userDetailsFormulario.get('id').invalid, userDetailsFormulario.get('id').dirty)">
+              <label for="inputId3" class="col-sm-2 control-label">Id</label>
+
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputId3" placeholder="ID" formControlName="id" required readonly>
+              </div>
+          </div>
+        <div [ngClass]="getClassFormGroupClass(userDetailsFormulario.get('email').invalid, userDetailsFormulario.get('email').dirty)">
+          <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+
+          <div class="col-sm-10">
+            <input type="email" class="form-control" id="inputEmail3" placeholder="Email" formControlName="email" required>
+            <span class="help-block" *ngIf="userDetailsFormulario.get('email').invalid && userDetailsFormulario.get('email').dirty">Email is invalid</span>
+          </div>
+        </div>
+        <div [ngClass]="getClassFormGroupClass(userDetailsFormulario.get('password').invalid, userDetailsFormulario.get('password').dirty)">
+          <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+
+          <div class="col-sm-10">
+              <input type="password" class="form-control" id="inputPassword3" placeholder="Password" formControlName="password" required>
+              <span class="help-block" *ngIf="userDetailsFormulario.get('password').invalid && userDetailsFormulario.get('password').dirty">Passowrd is riquired</span>
+          </div>
+        </div>
+        <div [ngClass]="getClassFormGroupClass(userDetailsFormulario.get('profile').invalid, userDetailsFormulario.get('profile').dirty)">
+          <label for="inputProfile3" class="col-sm-2 control-label">Profile</label>
+
+          <div class="col-sm-10">
+            <select class="form-control" id="inputProfile3" formControlName="profile" style="width: 100%">
+              <option *ngFor="let profile of profiles" [value]="profile.profile">{{profile.description}}</option>
+            </select>
+              <span class="help-block" *ngIf="userDetailsFormulario.get('profile').invalid && userDetailsFormulario.get('profile').dirty">Profile is riquired</span>
+          </div>
+        </div>
+      </div>
+      <div class="box-footer">
+        <div class="button-margin-left">
+          <button (click)="rertunToList()" class="btn btn-danger">Return</button>
+          <button type="submit" *ngIf="update" [disabled]="!userDetailsFormulario.valid" class="btn btn-info pull-right">Update</button>
+        </div>
+      </div>
+    </form>
+  </div>

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class DialogoService {
+export class DialogService {
 
   confirm(message?: string){
     return new Promise( resolve =>{

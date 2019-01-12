@@ -5,12 +5,14 @@ import { UserNewComponent } from './user-new/user-new.component'
 
 //import { routesUser } from './user.routes'
 import { UserRoutingModule } from './user.routing.module';
-import { UserListComponent } from './user-list/user-list.component'
+import { UserListComponent } from './user-list/user-list.component';
+import { DetailsUserComponent } from './user-list/details-user/details-user.component'
 
 @NgModule({
   declarations: [
     UserNewComponent,
-    UserListComponent
+    UserListComponent,
+    DetailsUserComponent
   ],
   imports: [
     CommonModule,

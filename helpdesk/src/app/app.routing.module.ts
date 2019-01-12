@@ -11,7 +11,6 @@ const APP_ROUTES: Routes = [
                       canActivateChild:[UserGuard],
                       canLoad: [AuthGuard]
     },
-    //helpdesk/src/app/users/users.module.ts
     {
       path : '', component : HomeComponent, canActivate: [AuthGuard]
     },
