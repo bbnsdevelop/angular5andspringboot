@@ -113,6 +113,7 @@ public class UserController {
 			return ResponseEntity.badRequest().body(response);
 		}
 		this.userService.delete(id);
+		response.setData("User: "+user.getEmail()+" has deleted with successful");
 		return ResponseEntity.ok(response);
 	}
 

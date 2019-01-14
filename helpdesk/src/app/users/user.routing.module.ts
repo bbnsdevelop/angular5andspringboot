@@ -6,7 +6,7 @@ import { UserGuard } from '../security/guards/user.guard';
 import { UserListComponent } from './user-list/user-list.component';
 import { DetailsUserComponent } from './user-list/details-user/details-user.component';
 
-const CURSOS_ROUTES: Routes = [
+const USER_ROUTES: Routes = [
   {path : '', component : UserNewComponent, canActivateChild: [UserGuard] },
   {path : 'list', component : UserListComponent, canActivateChild: [UserGuard] },
   {path : ':id', component : DetailsUserComponent, canActivateChild: [UserGuard] }
@@ -14,7 +14,7 @@ const CURSOS_ROUTES: Routes = [
 ];
 
 @NgModule({
-  imports:[RouterModule.forChild(CURSOS_ROUTES)],
+  imports:[RouterModule.forChild(USER_ROUTES)],
   exports: [RouterModule]
 })
 export class UserRoutingModule {

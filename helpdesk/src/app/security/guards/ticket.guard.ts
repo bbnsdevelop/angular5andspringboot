@@ -6,7 +6,7 @@ import { AuthGuard } from './auth.guard';
 @Injectable({
   providedIn: 'root'
 })
-export class UserGuard implements CanActivateChild {
+export class TicketGuard implements CanActivateChild {
 
   constructor(private authGuard: AuthGuard){}
 
