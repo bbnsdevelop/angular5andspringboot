@@ -10,16 +10,19 @@
       <div class="box-body">
         <table class="table table-bordered">
           <tr>
+            <th>Item</th>
             <th>Email</th>
             <th>Profile</th>
             <th style="width: 10px">&nbsp;</th>
             <th style="width: 10px">&nbsp;</th>
           </tr>
-          <tr *ngFor="let user of listUser">
+          <tr *ngFor="let user of listUser, let i = index">
+            <td>{{ i + 1}}</td>
             <td>{{ user.email }}</td>
             <td>{{ user.profile }}</td>
             <td><button class="btn btn-primary" (click)="edit(user.id)">Edit</button></td>
-            <td><button class="btn btn-danger" (click)="delete(user.id)">Delete</button></td>
+            <td><shared-modal [userModal]="userClick" (click)="getUser(i, $event)"></shared-modal></td>
+            <!--<td><button class="btn btn-danger" (click)="delete(user.id)">Delete</button></td>-->
           </tr>
         </table>
       </div>
@@ -29,7 +32,7 @@
           <li *ngFor="let page of pages; let i = index">
             <a href="" (click)="setPage(i, $event)">{{i + 1}}</a>
           </li>
-          <li><a [ngClass]="{'pagination-focus' : i == page}" href="" (click)="setNextPage($event)">&raquo;</a></li>
+          <li><a [ngClass]="getClassPage()" href="" (click)="setNextPage($event)">&raquo;</a></li>
         </ul>
       </div>
     </div>

@@ -6,12 +6,14 @@ import { FooterComponent } from './footer/footer.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
   declarations: [
     HeaderComponent,
     MenuComponent,
-    FooterComponent
+    FooterComponent,
+    ModalComponent
   ],
   imports: [
     CommonModule,
@@ -26,6 +28,7 @@ import { RouterModule } from '@angular/router';
     FooterComponent,
     HttpClientModule,
     ReactiveFormsModule,
+    ModalComponent,
     RouterModule
   ]
 })

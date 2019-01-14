@@ -10,6 +10,7 @@ export class SharedService{
   user: User;
   token: string;
   showTemplate = new EventEmitter<boolean>();
+  search = new EventEmitter<boolean>();
 
   constructor() {
     return SharedService.instance = SharedService.instance || this;
