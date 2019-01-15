@@ -18,9 +18,9 @@ export class TicketServiceImpl implements TicketService {
 
   createOrUpdate(ticket: Ticket):Observable<any>{
     if(ticket.id != null || ticket.id != ''){
-      return this.http.put(`${HELP_DESK_API}${this.TICKETAPI}`, ticket);
-    }else{
       return this.http.post(`${HELP_DESK_API}${this.TICKETAPI}`, ticket);
+    }else{
+      return this.http.put(`${HELP_DESK_API}${this.TICKETAPI}`, ticket);
     }
   }
 

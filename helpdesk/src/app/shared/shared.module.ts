@@ -6,14 +6,16 @@ import { FooterComponent } from './footer/footer.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { ModalComponent } from './modal/modal.component';
+import { ModalComponent } from './modals/modal-delete/modal.component';
+import { ModalRedirectComponent } from './modals/modal-redirect/modal-redirect.component';
 
 @NgModule({
   declarations: [
     HeaderComponent,
     MenuComponent,
     FooterComponent,
-    ModalComponent
+    ModalComponent,
+    ModalRedirectComponent
   ],
   imports: [
     CommonModule,
@@ -29,6 +31,7 @@ import { ModalComponent } from './modal/modal.component';
     HttpClientModule,
     ReactiveFormsModule,
     ModalComponent,
+    ModalRedirectComponent,
     RouterModule
   ]
 })

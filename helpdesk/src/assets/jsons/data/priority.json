@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "descriptionBack": "HIGH",
+    "descriptionView": "High"
+  },
+  {
+    "id": 2,
+    "descriptionBack": "NORMAL",
+    "descriptionView": "Normal"
+  },
+  {
+    "id": 3,
+    "descriptionBack": "LOW",
+    "descriptionView": "Low"
+  }
+
+]

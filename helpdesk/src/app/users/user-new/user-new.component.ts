@@ -26,7 +26,6 @@ export class UserNewComponent implements OnInit {
   userService: UserService;
   profileService: ProfileService;
   profiles: Array<Profile>;
-  update: boolean;
 
   constructor(private formBuilder: FormBuilder, private userServiceImpl: UserServiceImpl, private route: ActivatedRoute,
               private profileServiceImpl: ProfileServiceImpl) {
@@ -37,7 +36,6 @@ export class UserNewComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.update = false;
     this.instanceOfForms();
     this.getProfiles();
   }
@@ -49,17 +47,10 @@ export class UserNewComponent implements OnInit {
       this.user = new User('','','','');
       let user: User = response.data;
       this.instanceOfForms();
-      if(this.update){
-        this.showMessage({
-          type: 'success',
-          text: `Updadte user ${user.email} successfully`
-        });
-      }else{
-        this.showMessage({
+      this.showMessage({
           type: 'success',
           text: `Registered ${user.email} successfully`
         });
-      }
     }, error =>{
       this.showMessage({
         type: 'error',

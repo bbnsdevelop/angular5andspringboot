@@ -1,11 +1,11 @@
 import { Router } from '@angular/router';
 import { Component, OnInit, Input } from '@angular/core';
-import { User } from '../model/user.model';
-import { Response } from '../model/response.model';
-import { Utils } from '../utils/Utils';
-import { UserService } from '../service/user-service-interface';
-import { UserServiceImpl } from '../service/impl/user.service';
-import { SharedService } from '../service/impl/shared.service';
+import { User } from '../../model/user.model';
+import { Response } from '../../model/response.model';
+import { Utils } from '../../utils/Utils';
+import { UserService } from '../../service/user-service-interface';
+import { UserServiceImpl } from '../../service/impl/user.service';
+import { SharedService } from '../../service/impl/shared.service';
 
 @Component({
   selector: 'shared-modal',
@@ -21,7 +21,7 @@ export class ModalComponent implements OnInit {
   private userService: UserService;
   closePopup: boolean = false;
 
-  constructor(private userServiceImpl: UserServiceImpl, private router: Router) {
+  constructor(private userServiceImpl: UserServiceImpl) {
     this.shared = SharedService.getInstance();
       this.userService = this.userServiceImpl;
     }

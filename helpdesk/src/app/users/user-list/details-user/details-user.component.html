@@ -44,7 +44,8 @@
       </div>
       <div class="box-footer">
         <div class="button-margin-left">
-          <button (click)="rertunToList()" class="btn btn-danger">Return</button>
+          <app-modal-redirect [userModal]="user"></app-modal-redirect>
+          <!--<button (click)="rertunToList()" class="btn btn-danger">Return</button>-->
           <button type="submit" *ngIf="update" [disabled]="!userDetailsFormulario.valid" class="btn btn-info pull-right">Update</button>
         </div>
       </div>
