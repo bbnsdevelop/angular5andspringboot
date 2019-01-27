@@ -127,7 +127,7 @@ public class TicketController {
 			@PathVariable("page") int page, @PathVariable("count") int count, @PathVariable("number") Integer number,
 			@PathVariable("title") String title, @PathVariable("status") String status,
 			@PathVariable("priority") String priority, @PathVariable("assigned") boolean assigned) {
-
+		assigned = false;
 		title = title.equals("uninformed") ? "" : title;
 		status = status.equals("uninformed") ? "" : status;
 		priority = priority.equals("uninformed") ? "" : priority;

@@ -14,11 +14,18 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body" *ngIf="userComponent">
+        <div class="modal-body" *ngIf="userComponent && isUser">
           <div *ngIf="!closePopup">
             <p>When you redirect to the user list without saving? </p>
             <p>Your changes will be lost. Do you want to redirect?</p>
             <p>Use: {{ userComponent.email }}</p>
+          </div>
+        </div>
+        <div class="modal-body" *ngIf="ticketComponent && isTicket">
+          <div *ngIf="!closePopup">
+            <p>When you redirect to the user list without saving? </p>
+            <p>Your changes will be lost. Do you want to redirect?</p>
+            <p>Ticket: {{ ticketComponent.title }}</p>
           </div>
         </div>
         <div class="modal-footer">

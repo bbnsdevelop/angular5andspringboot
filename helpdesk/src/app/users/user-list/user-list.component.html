@@ -21,7 +21,7 @@
             <td>{{ user.email }}</td>
             <td>{{ user.profile }}</td>
             <td><button class="btn btn-primary" (click)="edit(user.id)">Edit</button></td>
-            <td><shared-modal [userModal]="userClick" (click)="getUser(i, $event)"></shared-modal></td>
+            <td><shared-modal [userModal]="userClick" [isUserModal]="true" [ticketModal]="null" [isTicketModal]="false" (click)="getUser(i, $event)"></shared-modal></td>
             <!--<td><button class="btn btn-danger" (click)="delete(user.id)">Delete</button></td>-->
           </tr>
         </table>

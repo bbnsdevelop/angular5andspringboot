@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "descriptionBack": "NEW",
+    "descriptionView": "New"
+  },
+  {
+    "id": 2,
+    "descriptionBack": "RESOLVED",
+    "descriptionView": "Resolved"
+  },
+  {
+    "id": 3,
+    "descriptionBack": "ASSIGNED",
+    "descriptionView": "Assigned"
+  },
+  {
+    "id": 4,
+    "descriptionBack": "APPROVED",
+    "descriptionView": "Approved"
+  },
+  {
+    "id": 5,
+    "descriptionBack": "DISAPPROVED",
+    "descriptionView": "Disapproved"
+  },
+  {
+    "id": 6,
+    "descriptionBack": "CLOSE",
+    "descriptionView": "Close"
+  }
+]

@@ -32,7 +32,7 @@ export class UserListComponent implements OnInit {
   userClick: User;
   searchAgain: boolean = false;
 
-  constructor(private dialogService: DialogService, private userServiceImpl: UserServiceImpl,
+  constructor(private userServiceImpl: UserServiceImpl,
               private router: Router, private profileServiceImpl: ProfileServiceImpl) {
     this.shared = SharedService.getInstance();
     this.userService = this.userServiceImpl;
@@ -67,6 +67,7 @@ export class UserListComponent implements OnInit {
       })
     })
   }
+  /*
   delete(id: string){
     this.dialogService.confirm('Do you want to delete the user?')
     .then((canDelete: boolean)=>{
@@ -87,7 +88,7 @@ export class UserListComponent implements OnInit {
       }
     });
 
-  }
+  }*/
 
   setNextPage(event:any){
     event.preventDefault();

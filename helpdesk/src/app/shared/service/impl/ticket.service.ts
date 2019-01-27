@@ -28,11 +28,11 @@ export class TicketServiceImpl implements TicketService {
     return this.http.get(`${HELP_DESK_API}${this.TICKETAPI}/${page}/${count}`);
   }
 
-  findById(id: number):Observable<any>{
+  findById(id: string):Observable<any>{
     return this.http.get(`${HELP_DESK_API}${this.TICKETAPI}/${id}`);
   }
 
-  delete(id: number):Observable<any>{
+  delete(id: string):Observable<any>{
     return this.http.delete(`${HELP_DESK_API}${this.TICKETAPI}/${id}`);
   }
 

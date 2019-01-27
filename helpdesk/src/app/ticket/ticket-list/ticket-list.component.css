@@ -1,0 +1,34 @@
+.help-block{
+  color: red !important;
+}
+.align-left{
+  margin-left: -18px;
+}
+.box-footer {
+   border-top: 1px solid #ecf0f5 !important;
+   background-color: #ecf0f5 !important;
+}
+
+
+.form-control{
+  height: 26px !important;
+  padding: 3px 12px !important;
+  margin-left: 49px;
+}
+.btn-info{
+  padding: 3px 12px !important;
+  margin-left: 39px;
+}
+.btn-info#clear{
+  padding: 3px 12px !important;
+  margin-left: -23px;
+}
+.margin-left-com-52{
+  margin-left: 52px;
+}
+.margin-left-com-39{
+  margin-left: 39px;
+}
+.text-center{
+  text-align: center;
+}

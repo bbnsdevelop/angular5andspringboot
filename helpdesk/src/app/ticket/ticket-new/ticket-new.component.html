@@ -8,11 +8,11 @@
           <span> {{ message.text }}</span>
         </div>
         <div class="box-body">
-          <div [ngClass]="getClassFormGroupClass(ticketNewFormulario.get('title').invalid, ticketNewFormulario.get('title').dirty)">
+          <div [ngClass]="getClassFormGroupClass(ticketNewFormulario.get('title').invalid, ticketNewFormulario.get('title').dirty)" >
             <label for="inputTitlel3" class="col-sm-2 control-label">Title</label>
 
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputTitlel3" placeholder="Title" formControlName="title" required>
+              <input type="text" class="form-control" id="inputTitlel3" placeholder="Title" formControlName="title" required >
               <span class="help-block" *ngIf="ticketNewFormulario.get('title').invalid && ticketNewFormulario.get('title').dirty">Title is required</span>
             </div>
           </div>
@@ -20,7 +20,7 @@
               <label for="inputPriority3" class="col-sm-2 control-label">Priority</label>
 
               <div class="col-sm-10">
-                <select class="form-control" id="inputPriority3" formControlName="priority" style="width: 100%">
+                <select class="form-control" id="inputPriority3" formControlName="priority" style="width: 100%" >
                   <option *ngFor="let priority of priorities" [value]="priority.descriptionBack">{{priority.descriptionView}}</option>
                 </select>
                   <span class="help-block" *ngIf="ticketNewFormulario.get('priority').invalid && ticketNewFormulario.get('priority').dirty">Priority is riquired</span>
@@ -32,7 +32,7 @@
               <label for="inputDescriptionl3" class="col-sm-2 control-label">Description</label>
 
               <div class="col-sm-10">
-                <textarea type="text" rows="3" class="form-control" id="inputDescriptionl3" placeholder="Description" formControlName="description" required>
+                <textarea type="text" rows="3" class="form-control" id="inputDescriptionl3" placeholder="Description" formControlName="description" required >
 
                 </textarea>
                 <span class="help-block" *ngIf="ticketNewFormulario.get('description').invalid && ticketNewFormulario.get('description').dirty">Description is required</span>
@@ -43,14 +43,18 @@
             <div class="col-sm-8" >
                 <input type="file" (change)="onFileChange($event)" id="inputImage" placeholder="Image" formControlName="image" required >
                 <div *ngIf="ticket.image">
-                  <img src={{ticket.image}} width="50%" height="50%"/>
+                  <img src={{ticket.image}} width="30%" height="50%"/>
                 </div>
               </div>
           </div>
 
         </div>
-        <div class="box-footer">
-          <button type="submit" *ngIf="!update" [disabled]="!ticketNewFormulario.valid" class="btn btn-info pull-right">Create</button>
+        <div class="box-footer" *ngIf="!update">
+          <button type="submit" [disabled]="!ticketNewFormulario.valid" class="btn btn-info pull-right">Create</button>
+        </div>
+        <div class="box-footer" *ngIf="update">
+          <app-modal-redirect [userModal]="null" [modalIsUser]="false" [ticketModal]="ticket" [modalIsTicket]="true" ></app-modal-redirect>
+          <button type="submit" class="btn btn-info pull-right">Update</button>
         </div>
       </form>
     </div>

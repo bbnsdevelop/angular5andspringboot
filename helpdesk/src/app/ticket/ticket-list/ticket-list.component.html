@@ -1,0 +1,128 @@
+<div class="col-md-10" style="margin-bottom: -10px;">
+  <div class="container-fluid">
+      <h4 class="align-left">Ticket List</h4>
+      <div [ngClass]="classCss" role="alert" *ngIf="message">
+          <span> {{ message.text }}</span>
+      </div>
+      <form class="form-horizontal" [formGroup]="ticketSearchForms" (ngSubmit)="filter()">
+          <div class="form-group">
+              <div class="row">
+                  <div class="col-sm-3">
+                    <label for="number">Number</label>
+                  </div>
+                  <div class="col-sm-2">
+                    <label for="title" >Title</label>
+                  </div>
+                  <div class="col-sm-2">
+                    <label for="status" class="margin-left-com-52">Status</label>
+                  </div>
+                  <div class="col-sm-2">
+                      <label for="priority" class="margin-left-com-52">Priority</label>
+                  </div>
+                  <div class="col-sm-3" *ngIf="shared.user.profile == 'TECNICIAN' ">
+                      <div class="checkbox">
+                          <label class="margin-left-com-39">
+                              <input type="checkbox" value="" formControlName="assignedToMe" (change)="searchFilter()">
+                              Assigned to me
+                          </label>
+                      </div>
+                  </div>
+                  <div class="col-sm-3" *ngIf="shared.user.profile !== 'TECNICIAN' ">
+                  </div>
+              </div>
+          </div>
+          <div class="form-group">
+              <div class="row">
+                  <div class="col-sm-3">
+                      <input type="text" id="number" formControlName="number" placeholder="Number" maxlength=4 (change)="searchFilter()">
+                      <span class="help-block" *ngIf="ticketSearchForms.get('number').invalid && ticketSearchForms.get('number').dirty">
+                      The field is just numeric
+                      </span>
+                  </div>
+                  <div class="col-sm-2">
+                      <input type="text" id="title" formControlName="title" placeholder="Title" (change)="searchFilter()">
+                      <span class="help-block" *ngIf="ticketSearchForms.get('title').invalid && ticketSearchForms.get('title').dirty" >minimum 4 characters</span>
+                  </div>
+                  <div class="col-sm-2">
+                      <select class="form-control" id="status" formControlName="status" (ngModelChange)="searchFilter()">
+                        <option *ngFor="let statu of status" [value]="statu.descriptionBack">{{statu.descriptionView}}</option>
+                      </select>
+                    </div>
+                  <div class="col-sm-2">
+                      <select class="form-control" id="priority" formControlName="priority" (ngModelChange)="searchFilter()">
+                        <option *ngFor="let priority of priorities" [value]="priority.descriptionBack">{{priority.descriptionView}}</option>
+                      </select>
+                  </div>
+                  <div class="col-sm-2" *ngIf="!search">
+                    <button type="submit" [disabled]="!(ticketSearchForms.get('number').valid && ticketSearchForms.get('number').dirty
+                                                   || ticketSearchForms.get('title').valid && ticketSearchForms.get('title').dirty
+                                                   || ticketSearchForms.get('status').valid && ticketSearchForms.get('status').dirty
+                                                   || ticketSearchForms.get('priority').valid && ticketSearchForms.get('priority').dirty
+                                                   || ticketSearchForms.get('assignedToMe').valid && ticketSearchForms.get('assignedToMe').dirty)"
+                            class="btn btn-info">Filter
+                    </button>
+                  </div>
+                  <div class="col-sm-2" *ngIf="search">
+                    <button type="submit" class="btn btn-info">Search
+                    </button>
+                  </div>
+                  <div class="col-sm-1">
+                    <button (click)="cleanFilter()" id="clear" [disabled]="!(ticketSearchForms.get('number').valid && ticketSearchForms.get('number').dirty
+                                                  || ticketSearchForms.get('title').valid && ticketSearchForms.get('title').dirty
+                                                  || ticketSearchForms.get('status').valid && ticketSearchForms.get('status').dirty
+                                                  || ticketSearchForms.get('priority').valid && ticketSearchForms.get('priority').dirty
+                                                  || ticketSearchForms.get('assignedToMe').valid && ticketSearchForms.get('assignedToMe').dirty)"
+                            class="btn btn-info">Clear
+                    </button>
+                  </div>
+              </div>
+          </div>
+
+      </form>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-10" style="margin-left: 14px !important;">
+    <div class="box">
+      <div class="box-header with-border">
+        <h3 class="box-title">Ticket List</h3>
+      </div>
+      <div class="box-body">
+        <table class="table table-bordered" *ngIf="tickets.length >= 0">
+          <tr>
+            <th class="text-center">Item</th>
+            <th class="text-center">Number</th>
+            <th class="text-center">Title</th>
+            <th class="text-center">Status</th>
+            <th class="text-center">Priority</th>
+            <th class="text-center">Owner</th>
+            <th class="text-center" style="width: 10px" *ngIf="shared.user.profile == 'CUSTOMER' "><img src="assets/img/edit.png" style="width: 21px;"></th>
+            <th class="text-center" style="width: 10px" *ngIf="shared.user.profile == 'CUSTOMER' " ><img src="assets/img/delete.png" style="width: 21px;"></th>
+            <th class="text-center" style="width: 10px"><img src="assets/img/details.png" style="width: 21px;"></th>
+          </tr>
+          <tr *ngFor="let ticket of tickets, let i = index" class="text-center">
+            <td>{{ i + 1}}</td>
+            <td>{{ ticket.number }}</td>
+            <td>{{ ticket.title }}</td>
+            <td>{{ ticket.status }}</td>
+            <td>{{ ticket.priority }}</td>
+            <td>{{ ticket.user.email }}</td>
+            <td *ngIf="shared.user.profile == 'CUSTOMER' " ><button class="btn btn-primary" (click)="edit(ticket.id)">Edit</button></td>
+            <td *ngIf="shared.user.profile == 'CUSTOMER' " ><shared-modal [userModal]="null" [isUserModal]="false" [ticketModal]="ticketClick" [isTicketModal]="true" (click)="getTicket(i, $event)"></shared-modal></td>
+            <td><button class="btn btn-success" (click)="detail(ticket.id)">Detail</button></td>
+          </tr>
+        </table>
+      </div>
+      <div class="box-footer clearfix">
+        <ul class="pagination pagination-sm no-margin pull-right">
+          <li><a href="" (click)="setPreviosPage($event)">&laquo;</a></li>
+          <li *ngFor="let page of pages; let i = index">
+            <a href="" (click)="setPage(i, $event)">{{i + 1}}</a>
+          </li>
+          <li><a [ngClass]="getClassPage()" href="" (click)="setNextPage($event)">&raquo;</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+

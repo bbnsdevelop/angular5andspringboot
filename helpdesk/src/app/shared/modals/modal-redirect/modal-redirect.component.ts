@@ -1,3 +1,4 @@
+import { Ticket } from './../../model/ticket.model';
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../../model/user.model';
@@ -10,12 +11,20 @@ import { User } from '../../model/user.model';
 export class ModalRedirectComponent implements OnInit {
 
   constructor(private router: Router) { }
+
   @Input('userModal') userComponent: User;
+  @Input('ticketModal') ticketComponent: Ticket;
+  @Input('modalIsUser') isUser: boolean;
+  @Input('modalIsTicket') isTicket: boolean;
 
   ngOnInit() {
   }
 
   rertunToList(){
-    this.router.navigate(['user/list']);
+    if(this.isUser){
+      this.router.navigate(['user/list']);
+    }else if(this.isTicket){
+      this.router.navigate(['/ticket/list']);
+    }
   }
 }
