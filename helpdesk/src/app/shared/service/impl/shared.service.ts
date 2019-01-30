@@ -1,3 +1,4 @@
+import { CurrentUser } from './../../model/current-user.model';
 import { Injectable, EventEmitter } from '@angular/core';
 import { User } from '../../model/user.model';
 
@@ -24,7 +25,14 @@ export class SharedService{
   }
   isLoggedIn(): boolean{
     if(this.user == null){
-      return false;
+      let currentUser: CurrentUser = JSON.parse(localStorage.getItem('currentUser'));
+      if(currentUser){
+        this.user = currentUser.user;
+        this.token = currentUser.token
+        this.showTemplate.emit(true);
+      }else{
+        return false;
+      }
     }
     return this.user.email != '';
   }

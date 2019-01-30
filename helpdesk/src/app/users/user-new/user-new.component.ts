@@ -1,4 +1,4 @@
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserServiceImpl } from './../../shared/service/impl/user.service';
 import { UserService } from './../../shared/service/user-service-interface';
 import { SharedService } from './../../shared/service/impl/shared.service';
@@ -28,7 +28,7 @@ export class UserNewComponent implements OnInit {
   profiles: Array<Profile>;
 
   constructor(private formBuilder: FormBuilder, private userServiceImpl: UserServiceImpl, private route: ActivatedRoute,
-              private profileServiceImpl: ProfileServiceImpl) {
+              private profileServiceImpl: ProfileServiceImpl, private router: Router) {
     this.shared = SharedService.getInstance();
     this.userService = this.userServiceImpl;
     this.profileService = this.profileServiceImpl;
@@ -54,8 +54,9 @@ export class UserNewComponent implements OnInit {
     }, error =>{
       this.showMessage({
         type: 'error',
-        text: error['error']['errors'][0]
+        text: error['error']['message']
       });
+      Utils.isHttp = true;
     })
   }
 
@@ -64,6 +65,12 @@ export class UserNewComponent implements OnInit {
     this.classCss = Utils.buildClass(message.type);
     setTimeout(() =>{
       this.message = undefined
+      if(message.type == 'error' && Utils.isCallHttp()){
+        this.router.navigate(['/login']);
+        this.shared.user = null;
+        this.shared.token = null;
+        this.shared.showTemplate.emit(false);
+      }
     }, 3000);
   }
 

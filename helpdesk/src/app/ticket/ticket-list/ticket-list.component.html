@@ -106,7 +106,7 @@
             <td>{{ ticket.title }}</td>
             <td>{{ ticket.status }}</td>
             <td>{{ ticket.priority }}</td>
-            <td>{{ ticket.user.email }}</td>
+            <td>{{ ticket?.user?.email }}</td>
             <td *ngIf="shared.user.profile == 'CUSTOMER' " ><button class="btn btn-primary" (click)="edit(ticket.id)">Edit</button></td>
             <td *ngIf="shared.user.profile == 'CUSTOMER' " ><shared-modal [userModal]="null" [isUserModal]="false" [ticketModal]="ticketClick" [isTicketModal]="true" (click)="getTicket(i, $event)"></shared-modal></td>
             <td><button class="btn btn-success" (click)="detail(ticket.id)">Detail</button></td>

@@ -23,9 +23,14 @@
         </div>
         <div class="modal-body" *ngIf="ticketComponent && isTicket">
           <div *ngIf="!closePopup">
-            <p>When you redirect to the user list without saving? </p>
+            <p>When you redirect to the ticket list without saving? </p>
             <p>Your changes will be lost. Do you want to redirect?</p>
             <p>Ticket: {{ ticketComponent.title }}</p>
+          </div>
+        </div>
+        <div class="modal-body" *ngIf="ticketComponent == null && isTicket">
+          <div *ngIf="!closePopup">
+            <p>Are you want redirect to tickets list ? </p>
           </div>
         </div>
         <div class="modal-footer">

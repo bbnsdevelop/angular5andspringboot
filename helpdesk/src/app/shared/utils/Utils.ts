@@ -2,6 +2,7 @@
 export class Utils {
 
   static classCss: string = '';
+  static isHttp: boolean = false;
 
   public static buildClass(type: string){
     this.classCss = 'alert '+'alert-'+type
@@ -14,6 +15,9 @@ export class Utils {
       'has-error': isValid && isDirty,
       'has-success': !isValid && isDirty
     };
+  }
+  public static isCallHttp(): boolean {
+    return this.isHttp;
   }
 
 }

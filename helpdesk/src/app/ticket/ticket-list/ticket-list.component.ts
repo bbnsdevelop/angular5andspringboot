@@ -75,8 +75,9 @@ export class TicketListComponent implements OnInit {
         }, error =>{
           this.showMessage({
             type: 'error',
-            text: error['error']['errors'][0]
+            text: error['error']['message']
           });
+          Utils.isHttp = true;
         });
       }
   }
@@ -199,8 +200,9 @@ export class TicketListComponent implements OnInit {
     }, error =>{
       this.showMessage({
         type: 'error',
-        text: error['error']['errors'][0]
+        text: error['error']['message']
       });
+      Utils.isHttp = true;
     });
   }
 
@@ -209,6 +211,12 @@ export class TicketListComponent implements OnInit {
     this.classCss = Utils.buildClass(message.type);
     setTimeout(() =>{
       this.message = undefined
+      if(message.type == 'error' && Utils.isCallHttp()){
+        this.router.navigate(['/login']);
+        this.shared.user = null;
+        this.shared.token = null;
+        this.shared.showTemplate.emit(false);
+      }
     }, 3000);
   }
 

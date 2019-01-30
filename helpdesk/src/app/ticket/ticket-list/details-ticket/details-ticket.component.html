@@ -1,3 +1,71 @@
-<p>
-  details-ticket works!
-</p>
+<div class="col-md-10" style="margin-left: 0%">
+  <div class="box box-info">
+    <div class="box-header with-border"><h3>Details Ticket</h3></div>
+    <div [ngClass]="classCss" role="alert" *ngIf="message">
+        <strong>{{ message.text }}</strong>
+      </div>
+      <div class="box-body">
+        <ul class="list-group list-group-unbordered">
+          <li class="list-group-item">
+            <b>Number: </b> <span>{{ ticket.number }}</span>
+            <span class="pull-right">
+                <b>Title:</b>
+                <span>{{ ticket.title }}</span>
+            </span>
+          </li>
+          <li class="list-group-item">
+            <b>Priority: </b> <span>{{ ticket.priority }}</span>
+            <span class="pull-right">
+                <b>Create by: </b>
+                <span>{{ ticket?.user?.email }}</span>
+            </span>
+          </li>
+          <li class="list-group-item">
+              <b>Status: </b> <span>{{ ticket.status }}</span>
+              <span class="pull-right">
+                  <b>Assigned to: </b>
+                  <span>{{ ticket?.assignedUser?.email }}</span>
+              </span>
+          </li>
+          <li class="list-group-item">
+                <b>Date: </b> <span>{{ ticket.date | date:'dd/MM/yyyy' }}</span>
+                <span class="pull-right">
+                    <b>Description: </b>
+                    <span>{{ ticket.description }}</span>
+                </span>
+          </li>
+          <li class="list-group-item" >
+            <span><img [src]="ticket.image" width="450px" height="160px"></span>
+            <span class="pull-right">
+              <table class="table table-bordered">
+                <tr *ngIf="ticket?.changes?.length > 0">
+                  <th>Item</th>
+                  <th>User Change</th>
+                  <th>Date change Status</th>
+                  <th>Status</th>
+                </tr>
+                <tr *ngFor="let change of ticket.changes; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ change?.userChange.email }}</td>
+                  <td>{{ change?.dateChangeStatus | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+                  <td>{{ change?.status }}</td>
+                </tr>
+              </table>
+            </span>
+          </li>
+        </ul>
+        <app-modal-redirect [userModal]="null" [modalIsUser]="false" [ticketModal]="null" [modalIsTicket]="true" >
+
+        </app-modal-redirect>
+        <!--*ngIf="shared.user.profile == 'TECNICIAN' && ticket.status == 'NEW' "-->
+        <app-modal-change-status
+          titleModal="Accept"
+          actionModal="accept the ticket"
+          statusModal="ASSIGNED"
+          [ticketModal]="ticket"
+          modalIsTicketModal="true">
+        </app-modal-change-status>
+
+      </div>
+  </div>
+</div>

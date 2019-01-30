@@ -7,7 +7,7 @@ import { Response } from '../../../shared/model/response.model';
 import { PriorityServiceImpl } from './../../../shared/service/impl/priority.service';
 import { TicketServiceImpl } from './../../../shared/service/impl/ticket.service';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-details-ticket',
@@ -19,13 +19,12 @@ export class DetailsTicketComponent implements OnInit {
 
   message: {type: string, text:string};
   classCss: {};
-  //ticketNewFormulario: FormGroup;
   ticket: Ticket = new Ticket('',0,'','','','',null,null,'', null, null);
   shared: SharedService
   ticketService: TicketService;
   priorityService: PriorityService;
 
-  constructor(private ticketServiceImpl: TicketServiceImpl, private priorityServiceImpl: PriorityServiceImpl, private route: ActivatedRoute) {
+  constructor(private router: Router, private ticketServiceImpl: TicketServiceImpl, private priorityServiceImpl: PriorityServiceImpl, private route: ActivatedRoute) {
     this.shared = SharedService.getInstance();
     this.ticketService = this.ticketServiceImpl;
     this.priorityService = this.priorityServiceImpl;
@@ -35,19 +34,19 @@ export class DetailsTicketComponent implements OnInit {
     this.findByid();
   }
 
-
-
   private findByid(): void {
     let id = this.getUserId();
     if(id){
       this.ticketService.findById(id).subscribe((response: Response) =>{
-        let ticket: Ticket = response.data;
+        this.ticket = response.data;
+        this.ticket.date = new Date(this.ticket.date).toISOString();
         //this.updateForms(ticket);
       }, error =>{
         this.showMessage({
           type: 'error',
-          text: error['error']['errors'][0]
+          text: error['error']['message']
         });
+        Utils.isHttp = true;
       });
     }
   }
@@ -61,7 +60,15 @@ export class DetailsTicketComponent implements OnInit {
     this.classCss = Utils.buildClass(message.type);
     setTimeout(() =>{
       this.message = undefined
+      if(message.type == 'error' && Utils.isCallHttp()){
+        this.router.navigate(['/login']);
+        this.shared.user = null;
+        this.shared.token = null;
+        this.shared.showTemplate.emit(false);
+      }
     }, 3000);
   }
+
+
 
 }

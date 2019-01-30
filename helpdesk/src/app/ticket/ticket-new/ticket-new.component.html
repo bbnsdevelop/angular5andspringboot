@@ -32,7 +32,7 @@
               <label for="inputDescriptionl3" class="col-sm-2 control-label">Description</label>
 
               <div class="col-sm-10">
-                <textarea type="text" rows="3" class="form-control" id="inputDescriptionl3" placeholder="Description" formControlName="description" required >
+                <textarea type="text" rows="3" class="form-control" id="inputDescriptionl3" placeholder="Description" formControlName="description" required maxlength="80" minlength="5" >
 
                 </textarea>
                 <span class="help-block" *ngIf="ticketNewFormulario.get('description').invalid && ticketNewFormulario.get('description').dirty">Description is required</span>
@@ -43,7 +43,7 @@
             <div class="col-sm-8" >
                 <input type="file" (change)="onFileChange($event)" id="inputImage" placeholder="Image" formControlName="image" required >
                 <div *ngIf="ticket.image">
-                  <img src={{ticket.image}} width="30%" height="50%"/>
+                  <img src={{ticket.image}} width="30%" height="50%" style="margin-top: 5px;"/>
                 </div>
               </div>
           </div>

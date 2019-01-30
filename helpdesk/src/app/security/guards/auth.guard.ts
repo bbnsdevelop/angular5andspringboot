@@ -22,7 +22,6 @@ export class AuthGuard implements CanActivate , CanLoad{
   }
 
   private verificaAcesso(): boolean {
-
     if(this.shared.isLoggedIn()){
       return true;
     }

@@ -57,8 +57,9 @@ export class TicketNewComponent implements OnInit {
       }, error =>{
         this.showMessage({
           type: 'error',
-          text: error['error']['errors'][0]
+          text: error['error']['message']
         });
+        Utils.isHttp = true;
       });
     }else{
         this.getFormsForms();
@@ -73,8 +74,9 @@ export class TicketNewComponent implements OnInit {
       }, error =>{
         this.showMessage({
           type: 'error',
-          text: error['error']['errors'][0]
+          text: error['error']['message']
         });
+        Utils.isHttp = true;
       });
     }
 
@@ -84,6 +86,12 @@ export class TicketNewComponent implements OnInit {
     this.classCss = Utils.buildClass(message.type);
     setTimeout(() =>{
       this.message = undefined
+      if(message.type == 'error' && Utils.isCallHttp()){
+        this.router.navigate(['/login']);
+        this.shared.user = null;
+        this.shared.token = null;
+        this.shared.showTemplate.emit(false);
+      }
       if(this.update){
         this.router.navigate(['/ticket/list']);
       }
@@ -94,7 +102,7 @@ export class TicketNewComponent implements OnInit {
     this.ticketNewFormulario = this.formBuilder.group({
       title: [null, [Validators.required]],
       priority: [null, [Validators.required]],
-      description: [null, [Validators.required]],
+      description: [null, [Validators.required, Validators.minLength(6), Validators.maxLength(80)]],
       image: [null]
     });
   }
@@ -144,8 +152,9 @@ export class TicketNewComponent implements OnInit {
       }, error =>{
         this.showMessage({
           type: 'error',
-          text: error['error']['errors'][0]
+          text: error['error']['message']
         });
+        Utils.isHttp = true;
       });
     }
   }

@@ -25,7 +25,7 @@ export class HeaderComponent implements OnInit {
     this.shared.token = null;
     this.shared.user = null;
     this.router.navigate(['/login'])
-    //window.location.href = '/login';
+    localStorage.removeItem('currentUser');
     window.location.reload();
   }
 

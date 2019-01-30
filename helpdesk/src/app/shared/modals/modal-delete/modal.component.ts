@@ -8,6 +8,7 @@ import { UserService } from '../../service/user-service-interface';
 import { UserServiceImpl } from '../../service/impl/user.service';
 import { SharedService } from '../../service/impl/shared.service';
 import { Ticket } from '../../model/ticket.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'shared-modal',
@@ -28,7 +29,7 @@ export class ModalComponent implements OnInit {
   ticketService: TicketService;
   closePopup: boolean = false;
 
-  constructor(private userServiceImpl: UserServiceImpl, private ticketServiceImpl: TicketServiceImpl,) {
+  constructor(private router: Router, private userServiceImpl: UserServiceImpl, private ticketServiceImpl: TicketServiceImpl,) {
     this.shared = SharedService.getInstance();
       this.userService = this.userServiceImpl;
       this.ticketService = this.ticketServiceImpl;
@@ -50,8 +51,9 @@ export class ModalComponent implements OnInit {
         }, error =>{
           this.showMessage({
             type: 'error',
-            text: error['error']['errors'][0]
+            text: error['error']['message']
           });
+          Utils.isHttp = true;
         })
     }else if(this.isTicket){
       this.ticketService.delete(this.ticketComponent.id).subscribe((response: Response) =>{
@@ -63,8 +65,9 @@ export class ModalComponent implements OnInit {
       }, error =>{
         this.showMessage({
           type: 'error',
-          text: error['error']['errors'][0]
+          text: error['error']['message']
         });
+        Utils.isHttp = true;
       })
     }
 
@@ -72,9 +75,14 @@ export class ModalComponent implements OnInit {
   private showMessage(message :{type: string, text: string}): void {
     this.message = message;
     this.classCss = Utils.buildClass(message.type);
-    /*setTimeout(() =>{
-      this.message = undefined
-    }, 3000);*/
+    setTimeout(() =>{
+      if(message.type == 'error' && Utils.isCallHttp()){
+        this.router.navigate(['/login']);
+        this.shared.user = null;
+        this.shared.token = null;
+        this.shared.showTemplate.emit(false);
+      }
+    }, 3000);
   }
 
   close(){

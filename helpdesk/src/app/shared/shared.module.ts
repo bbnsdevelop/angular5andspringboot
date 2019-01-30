@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ModalComponent } from './modals/modal-delete/modal.component';
 import { ModalRedirectComponent } from './modals/modal-redirect/modal-redirect.component';
+import { ModalChangeStatusComponent } from './modals/modal-change-status/modal-change-status.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { ModalRedirectComponent } from './modals/modal-redirect/modal-redirect.c
     MenuComponent,
     FooterComponent,
     ModalComponent,
-    ModalRedirectComponent
+    ModalRedirectComponent,
+    ModalChangeStatusComponent
   ],
   imports: [
     CommonModule,
@@ -32,6 +34,7 @@ import { ModalRedirectComponent } from './modals/modal-redirect/modal-redirect.c
     ReactiveFormsModule,
     ModalComponent,
     ModalRedirectComponent,
+    ModalChangeStatusComponent,
     RouterModule
   ]
 })

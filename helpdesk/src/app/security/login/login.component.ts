@@ -31,6 +31,7 @@ export class LoginComponent implements OnInit {
       email: [null, [Validators.required, Validators.email]],
       password: [null, [Validators.minLength(6), Validators.required]]
     });
+    localStorage.removeItem('currentUser');
   }
 
   login(){
@@ -42,6 +43,8 @@ export class LoginComponent implements OnInit {
         this.shared.token = userAuthentication.token;
         this.shared.user = userAuthentication.user;
         this.shared.user.profile = this.shared.user.profile.substring(5);
+        userAuthentication.user.password = '';
+        localStorage.setItem('currentUser', JSON.stringify(userAuthentication));
         this.shared.showTemplate.emit(true);
         this.router.navigate(['/']);
       }, err =>{
